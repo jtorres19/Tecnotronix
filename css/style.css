@@ -1,0 +1,135 @@
+/* giot-web - Estilo principal */
+
+/*----------------------------------------------- Globales -------------------------------------------*/
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    padding-top: 50px; 
+    background:url('../img/background1.jpg'); 
+    background-repeat: no-repeat;
+    background:url('../img/background1.jpg'); 
+    background-size: 100%;
+}
+
+.titulo-pagina{
+    text-align: center;
+}
+
+input:invalid {
+ 
+    border: 1px solid red;
+     
+    }
+     
+    /* Estilo por defecto */
+     
+input:valid {
+     
+    border: 1px solid green;
+     
+    }
+    /* Estilo por defecto */
+     
+input:required:invalid {
+     
+    border: 1px solid red;
+     
+    }
+     
+input:required:valid {
+     
+    border: 1px solid green;
+     
+    }
+
+/*----------------------------------------------- Pie de pagina -------------------------------------------*/
+
+/* Pantallas mas pequeñas */
+footer{
+    color: #AAA;
+    padding: 15px 25px;
+    text-align: center;
+}
+
+footer a{
+    color: #DDD;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+footer a:hoover{
+    
+}
+
+footer a:focus{
+
+}
+
+footer div.row > div{
+    margin-bottom: 15px;
+}
+
+footer .enlaces-internos{
+    position: relative;
+    bottom: -10px
+}
+
+footer .iconos-redes-sociales > a{
+    display: inline-block;
+    background: #333;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    font-size: 20px;
+    color: #FFF;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+/* Pantallas mas grandes */
+@media only screen and (min-width: 768px){
+    footer{
+        text-align: left;
+    }
+
+    footer div.row > div{
+        margin-bottom: 5px;
+    }    
+
+    footer .enlaces-internos{
+        bottom: -13px
+    }
+
+    footer .pie-derecho{
+        text-align: right;
+    }
+
+    footer .iconos-redes-sociales > a{
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        font-size: 15px;
+    }
+
+    /*.row{
+        border: red solid thin;
+    }
+
+    .col-sm-6{
+        border: green solid thin;
+    }*/
+}
+
+/*----------------------------------------------- Registro -------------------------------------------*/
+#pagina-registro{
+    /* border: red thin solid; */
+}
+
+#pagina-registro form{
+    /* border: blue thin solid; */
+}
