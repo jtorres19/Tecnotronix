@@ -8,18 +8,12 @@
 <div class="container" id="pagina-principal">
     <h1 class="titulo-pagina">Pagina Principal</h1>
     <?php 
+        
         if(isset($_SESSION['usuario'])){
-            if($_SESSION['usuario']['id_perfil'] == 1){
-                header('Location: admin.php');
-            }elseif($_SESSION['usuario']['id_perfil'] == 2){
-                header('Location: coach.php');
-            }elseif($_SESSION['usuario']['id_perfil'] == 3){
-                header('Location: sport.php');
-            }
-            // include('data/login.inc.php');
-            //     echo '
-            //     <p>Bienvenido '.$_SESSION['usuario'].' </p>
-            // ';
+            session_start();
+            echo '
+                <p>Bienvenido '.$_SESSION['usuario'].' </p>
+            ';
         }else{
             echo '
                 <p>Registrate o has login</p>

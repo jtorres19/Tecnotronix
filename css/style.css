@@ -19,32 +19,49 @@ body{
     text-align: center;
 }
 
+/*------------------------------------------- estilo de los inputs-------------------------------------- */
+
 input:invalid {
  
     border: 1px solid red;
-     
-    }
+    
+}
      
     /* Estilo por defecto */
      
 input:valid {
      
     border: 1px solid green;
+    
      
-    }
+}
     /* Estilo por defecto */
      
 input:required:invalid {
      
     border: 1px solid red;
-     
-    }
+    
+}
      
 input:required:valid {
      
     border: 1px solid green;
      
-    }
+}
+
+/* input[value=""] + span::after {
+    content: "";
+}
+
+input:valid + span::after {
+    content: "\2713";
+    color: limegreen;
+}
+
+input:invalid + span::after {
+    content: "X";
+    color: #ce0000;
+} */
 
 /*----------------------------------------------- Pie de pagina -------------------------------------------*/
 

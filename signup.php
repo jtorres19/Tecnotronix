@@ -19,12 +19,12 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <input title="Nombre requerido" type="text" class="form-control input-lg" name="nombre" placeholder="Nombre" tabindex="1" autofocus required/>
+                            <input title="Nombre requerido, solo letras" pattern="[a-zA-ZñÑ]{2,20}" type="text" class="form-control input-lg" name="nombre" placeholder="Nombre" tabindex="1" autofocus required/>
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                        <input title="Debe ingresar Apellido" type="text" class="form-control input-lg" name="apellido" placeholder="Apellido" tabindex="2" required/>
+                        <input title="Apellido requerido, solo letras" pattern="[a-zA-ZñÑ]{2,20}" type="text" class="form-control input-lg" name="apellido" placeholder="Apellido" tabindex="2" required/>
                         </div>
                     </div>
                 </div>
@@ -32,12 +32,12 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-user"></i></span>
-                            <input title="Debe ingresar un usuario" type="text" class="form-control input-lg" name="usuario" placeholder="Nombre de usuario" tabindex="3" required/>
+                            <input title="Usuario requerido" type="text" pattern="[a-zA-ZñÑ0-9.!#$%&'*+/=?^_`{|}~-]{2,20}" class="form-control input-lg" name="usuario" placeholder="Nombre de usuario" tabindex="3" required/>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-at"></i></span>
-                        <input title="mail@example.com" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" type="email" class="form-control input-lg" name="email" placeholder="E-mail" tabindex="4" required/>
+                        <input title="mail@example.com" type="email" class="form-control input-lg" name="email" placeholder="E-mail" tabindex="4" required/>
                         </div>
                     </div>
                 </div>
@@ -45,12 +45,12 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-key"></i></span>
-                            <input type="password" class="form-control input-lg" name="clave" placeholder="Contraseña" tabindex="5" required="">
+                            <input type="password" class="form-control input-lg" name="clave" placeholder="Contraseña" tabindex="5" required/>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-key"></i></span>
-                        <input type="password" class="form-control input-lg" name="clave2" placeholder="Confirmar contraseña" tabindex="6" required="">
+                        <input type="password" class="form-control input-lg" name="clave2" placeholder="Confirmar contraseña" tabindex="6" required/>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <label class="btn btn-primary btn-lg btn-block">
-                            <input type="checkbox" name="terminos" tabindex="7">
+                            <input type="checkbox" name="terminos" tabindex="7" required/>
                             Acepto
                         </label>
                     </div>

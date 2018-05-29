@@ -14,30 +14,7 @@ if(isset($_POST['btnRegistro'])){
     $clave2 = mysqli_real_escape_string($con, $_POST['clave2']); 
 
     //Error handlers
-    //Check for empty fields
-    if(empty($nombre) || 
-        empty($apellido) || 
-        empty($email) || 
-        empty($usuario) || 
-        empty($clave) ||
-        empty($clave2)){
-
-        header("Location: ../signup.php?signup=empty");
-        exit();
-
-    //Check if input characters are valid
-    }elseif(!preg_match("/^[a-zA-Z]*$/", $nombre) || !preg_match("/^[a-zA-Z]*$/", $apellido)){
-
-        header("Location: ../signup.php?signup=invalid");
-        exit();
-
-    //check if email is valid
-    }elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){
-
-        header("Location: ../signup.php?signup=emailwrong");
-        exit();
-
-    }elseif($clave !== $clave2){
+    if($clave !== $clave2){
         
         header("location: ../signup.php?signup=clavesnocoinciden");
         exit();
@@ -65,3 +42,5 @@ if(isset($_POST['btnRegistro'])){
     header("Location: ../signup.php");
     exit();
 }
+
+mysqli_close($con);

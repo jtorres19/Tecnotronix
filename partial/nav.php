@@ -20,8 +20,10 @@
                 <li><a href="#">Contacto</a></li>
                     
 
-                <?php 
-                    if(isset($_SESSION['usuario'])){
+                <?php     
+                    
+                    if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true){
+                        session_start();
                         echo '
                             <li>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -42,6 +44,15 @@
                                 <li><a href="signup.php">Registro</a></li>
                             ';
                         }
+                        $now = time();
+                        // if($now > $_SESSION['expire']) {
+                        //     session_destroy();
+                        //     echo '
+                        //         <li><a href="login.php">Ingreso</a></li>
+                        //         <li><a href="signup.php">Registro</a></li>
+                        //     ';
+                        //     exit;
+                        // }
                     ?>
                 </ul>
             </div>

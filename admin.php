@@ -5,8 +5,21 @@
 ?>
       
 <!-- Contenedor principal -->
-<div class="container" id="pagina-plantilla">
-    <h1 class="titulo-pagina"><?php echo $titulo ?? "GIOT Web"?></h1>
+<div class="container" id="pagina-principal">
+    <h1 class="titulo-pagina">Bienvenido Administrador</h1>
+    <?php 
+        
+        if(isset($_SESSION['usuario'])){
+            session_start();
+            echo '
+                <p>Bienvenido '.$_SESSION['usuario'].' </p>
+            ';
+        }else{
+            echo '
+                <p>Registrate o has login</p>
+            ';
+        }
+    ?>
 </div>
 <!-- Contenedor principal -->
 

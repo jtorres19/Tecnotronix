@@ -18,12 +18,12 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-user"></i></span>
-                            <input title="mail@example.com" type="text" class="form-control input-lg" name="usuario" placeholder="Nombre de usuario o E-mail" tabindex="1" autofocus required>
+                            <input title="Usuario requerido" pattern="[a-zA-ZñÑ0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-ZñÑ0-9-]+(?:\.[a-zA-ZñÑ0-9-]+)*${2,20}" type="text" class="form-control input-lg" name="usuario" placeholder="Nombre de usuario o E-mail" tabindex="1" autofocus required>
                         </div>
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-key"></i></span>
-                            <input title="mail@example.com" type="password" class="form-control input-lg" name="clave" placeholder="Contraseña" tabindex="2" required>
+                            <input title="Contraseña requerida" type="password" class="form-control input-lg" name="clave" placeholder="Contraseña" tabindex="2" required>
                         </div>
                     </div>
                 </div>

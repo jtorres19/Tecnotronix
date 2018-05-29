@@ -29,12 +29,32 @@ if (isset($_POST['btnLogin'])){
                 }elseif($hashedPwdCheck == true){
                     //Log in the user here
                     $_SESSION['usuario'] = $row;
+                    if($_SESSION['usuario']['id_perfil'] == 1){
+                        $_SESSION['loggedin'] = true;
+                        $_SESSION['usuario'] = $usuario;
+                        $_SESSION['start'] = time();
+                        $_SESSION['expire'] = $_SESSION['start'] + (10);
+                        header('Location: ../admin.php');
+                        exit;
+                    }elseif($_SESSION['usuario']['id_perfil'] == 2){
+                        $_SESSION['loggedin'] = true;
+                        $_SESSION['usuario'] = $usuario;
+                        $_SESSION['start'] = time();
+                        $_SESSION['expire'] = $_SESSION['start'] + (10);
+                        header('Location: ../coach.php');   
+                        exit;
+                    }elseif($_SESSION['usuario']['id_perfil'] == 3){
+                        $_SESSION['loggedin'] = true;
+                        $_SESSION['usuario'] = $usuario;
+                        $_SESSION['start'] = time();
+                        $_SESSION['expire'] = $_SESSION['start'] + (10);
+                        header('Location: ../sport.php');
+                        exit;
+                    }
                     //$_SESSION['usuario'] = $row['usuario'];
                     /*$_SESSION['nombre'] = $row['nombre'];
                     $_SESSION['apellido'] = $row['apellido'];
                     $_SESSION['email'] = $row['email'];*/
-                    header("Location: ../index.php");
-                    exit();
                 }
             }
         }
@@ -44,3 +64,5 @@ if (isset($_POST['btnLogin'])){
     header("Location: ../login.php?login=error");
     exit();
 }
+
+mysqli_close($con);
