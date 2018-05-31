@@ -1,7 +1,13 @@
 <?php
-    $titulo = "GIOT Web | Ingresar";
+    session_start();
+    require_once('functions/functions.php');
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $errores = login();
+    }
+    $titulo = "GIOT Web | Login";
     require_once('partial/up.php');
     require_once('partial/nav.php');
+    require_once('data/conexion.php');
 ?>
       
 <!-- Contenedor principal -->
@@ -12,9 +18,15 @@
             <h1 class="titulo-pagina">Ingreso</h1>
 
             <hr>
+
+            <!--Llamando a funcion para mostrar errores -->
+            <?php 
+                if(!empty($errores)){echo mostrarError($errores);}  
+            ?>
+            <!--Llamando a funcion para mostrar errores -->
             
             <!-- Formulario de login -->
-            <form id="frmLogin" action="data/login.inc.php" method="POST">
+            <form method="POST">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-user"></i></span>
@@ -38,6 +50,12 @@
                     <div class="col-sm-6">
                         <a href="index.php" class="btn btn-danger btn-lg btn-block" tabindex="4">Cancelar</a>
                     </div>
+                </div>
+
+                <br>
+
+                <div>
+                    <a href="#">¿Olvidó su contraseña?</a>
                 </div>
                 
             </form>

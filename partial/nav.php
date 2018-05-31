@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="index.php" class="navbar-brand">GIOT</a>
+            <a href="index.php" class="navbar-brand"><i src="img/giot.jpeg"></i>GIOT</a>
         </div>
         <!-- Logo y boton de expandir y colapsar los enlaces -->
 
@@ -20,10 +20,8 @@
                 <li><a href="#">Contacto</a></li>
                     
 
-                <?php     
-                    
-                    if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true){
-                        session_start();
+                <?php                       
+                    if(isset($_SESSION['usuario'])){
                         echo '
                             <li>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -44,7 +42,7 @@
                                 <li><a href="signup.php">Registro</a></li>
                             ';
                         }
-                        $now = time();
+                        // $now = time();
                         // if($now > $_SESSION['expire']) {
                         //     session_destroy();
                         //     echo '
@@ -55,7 +53,7 @@
                         // }
                     ?>
                 </ul>
-            </div>
+        </div>
             <!-- Enlaces de navegacion   -->
-          </div>
-      </nav> 
+    </div>
+</nav> 

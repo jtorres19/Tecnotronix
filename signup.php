@@ -1,7 +1,13 @@
 <?php
+    session_start();
+    require_once('functions/functions.php');
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+        $errores = registro();
+    }
     $titulo = "GIOT Web | Registro";
     require_once('partial/up.php');
     require_once('partial/nav.php');
+    require_once('data/conexion.php');
 ?>
       
 <!-- Contenedor principal -->
@@ -11,9 +17,15 @@
             <h1 class="titulo-pagina">Registro</h1>
 
             <hr>
-            
+
+            <!--Llamando a funcion para mostrar errores -->
+            <?php 
+                if(!empty($errores)){echo mostrarError($errores);}  
+            ?>
+            <!--Llamando a funcion para mostrar errores -->
+
             <!-- Formulario de registro -->
-            <form action="data/signup.inc.php" method="POST">
+            <form method="POST">
                 <h2>Registrate <small>para acceder a los beneficios de GIOT</small></h2>
                 <hr>
                 <div class="row">
@@ -37,7 +49,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-at"></i></span>
-                        <input title="mail@example.com" type="email" class="form-control input-lg" name="email" placeholder="E-mail" tabindex="4" required/>
+                            <input title="mail@example.com" type="email" class="form-control input-lg" name="email" placeholder="E-mail" tabindex="4" required/>
                         </div>
                     </div>
                 </div>
@@ -50,7 +62,7 @@
                     </div>
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-key"></i></span>
-                        <input type="password" class="form-control input-lg" name="clave2" placeholder="Confirmar contraseña" tabindex="6" required/>
+                            <input type="password" class="form-control input-lg" name="clave2" placeholder="Confirmar contraseña" tabindex="6" required/>
                         </div>
                     </div>
                 </div>
@@ -83,8 +95,6 @@
             <!-- Formulario de registro -->
         </div>
     </div>
-    
-
 </div>
 <!-- Contenedor principal -->
 
