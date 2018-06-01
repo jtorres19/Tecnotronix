@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse navbar-fixed-top navbar-dark navbar-expand-lg scrolling-navbar">
     <div class="container">
         <!-- Logo y boton de expandir y colapsar los enlaces -->
         <div class="navbar-header">
@@ -7,53 +7,61 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="index.php" class="navbar-brand"><i src="img/giot.jpeg"></i>GIOT</a>
+            <a href="index.php" class="navbar-brand">GIOT</a>
         </div>
         <!-- Logo y boton de expandir y colapsar los enlaces -->
 
         <!-- Enlaces de navegacion   -->
         <div class="collapse navbar-collapse navbar-right" id="enlaces">
             <ul class="nav navbar-nav">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="#">Nosotros</a></li>
-                <li><a href="#">Galeria</a></li>
-                <li><a href="#">Contacto</a></li>
-                    
+                <li>
+                    <a href="index.php">Home</a>
+                </li>
+                <li>
+                    <a href="#">Nosotros</a>
+                </li>
+                <li>
+                    <a href="#">Galeria</a>
+                </li>
+                <li>
+                    <a href="#">Contacto</a>
+                </li>
+
 
                 <?php                       
-                    if(isset($_SESSION['usuario'])){
-                        echo '
-                            <li>
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    '.$_SESSION['usuario'].' <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Mi Perfil</a></li>
-                                    <li><a href="#">Mi Cuenta</a></li>    
-                                    <li><a href="#">Mis Preferencias</a></li>    
-                                    <li class="divider"></li>
-                                    <li><a href="logout.php">Cerrar Sesión</a></li>  
-                                </ul>
-                            </li>
-                        ';
-                        }else{
+                        if(isset($_SESSION['usuario'])){
                             echo '
-                                <li><a href="login.php">Ingreso</a></li>
-                                <li><a href="signup.php">Registro</a></li>
+                                <li>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        '.$_SESSION['usuario'].' <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">Mi Perfil</a></li>
+                                        <li><a href="#">Mi Cuenta</a></li>    
+                                        <li><a href="#">Mis Preferencias</a></li>    
+                                        <li class="divider"></li>
+                                        <li><a href="logout.php">Cerrar Sesión</a></li>  
+                                    </ul>
+                                </li>
                             ';
-                        }
-                        // $now = time();
-                        // if($now > $_SESSION['expire']) {
-                        //     session_destroy();
-                        //     echo '
-                        //         <li><a href="login.php">Ingreso</a></li>
-                        //         <li><a href="signup.php">Registro</a></li>
-                        //     ';
-                        //     exit;
-                        // }
-                    ?>
-                </ul>
+                            }else{
+                                echo '
+                                    <li><a href="login.php">Ingreso</a></li>
+                                    <li><a href="signup.php">Registro</a></li>
+                                ';
+                            }
+                            // $now = time();
+                            // if($now > $_SESSION['expire']) {
+                            //     session_destroy();
+                            //     echo '
+                            //         <li><a href="login.php">Ingreso</a></li>
+                            //         <li><a href="signup.php">Registro</a></li>
+                            //     ';
+                            //     exit;
+                            // }
+                        ?>
+            </ul>
         </div>
-            <!-- Enlaces de navegacion   -->
+        <!-- Enlaces de navegacion   -->
     </div>
-</nav> 
+</nav>

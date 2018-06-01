@@ -13,6 +13,7 @@
 <!-- Contenedor principal -->
 <div class="container" id="pagina-principal">
     <h1 class="titulo-pagina">Bienvenido Personal Trainner</h1>
+    <hr>
     <?php 
         // if(!empty($errores)){echo mostrarError($errores);}
         if(isset($_SESSION['usuario'])){

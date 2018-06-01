@@ -1,5 +1,5 @@
- <!-- Pie de pagina -->
- <footer class="navbar navbar-inverse navbar-fixed-bottom">
+<!-- Pie de pagina -->
+<footer class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="container">
         <div class="row">
             <!-- Enlaces a redes sociales -->

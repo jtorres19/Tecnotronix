@@ -1,9 +1,22 @@
 <?php
     session_start();
     require_once('functions/functions.php');
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        $errores = registro();
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ficha']) && validar_ficha($_POST['ficha'])){
+        $campos = [
+            'nombre' => 'Nombre',
+            'apellido' => 'Apellido',
+            'usuario' => 'Usuario',
+            'email' => 'E-mail',
+            'clave' => 'Contraseña',
+            'clave2' => 'Confirmación de contraseña',
+            'terminos' => 'Términos y Condiciones',
+        ];
+        $errores = validar($campos);
+        if(empty($errores)){
+            $errores = registro();
+        }
     }
+    
     $titulo = "GIOT Web | Registro";
     require_once('partial/up.php');
     require_once('partial/nav.php');
@@ -26,6 +39,7 @@
 
             <!-- Formulario de registro -->
             <form method="POST">
+                <input type="hidden" name="ficha" value="<?php echo ficha_csrf(); ?>">
                 <h2>Registrate <small>para acceder a los beneficios de GIOT</small></h2>
                 <hr>
                 <div class="row">

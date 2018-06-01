@@ -119,7 +119,7 @@
     function mostrarError($errores){
         $resultado = '
         <!-- contenedor de error -->
-            <div class="alert alert-info">
+            <div class="alert alert-info errores">
                 <ul>';
                 foreach($errores as $error){
                     $resultado .= '<li>' .htmlspecialchars($error) . '</li>';
@@ -129,5 +129,29 @@
         <!-- contenedor de error -->';
         return $resultado;
     }  
+
+    function ficha_csrf(){
+        $ficha = bin2hex(random_bytes(32));
+        
+        return $_SESSION['ficha'] = $ficha;
+    }
+
+    function validar_ficha($ficha){
+        if(isset($_SESSION['ficha']) && hash_equals($_SESSION['ficha'], $ficha)){
+            unset($_SESSION['ficha']);
+            return true;
+        }
+        return false;
+    }
+
+    function validar($campos){
+        $errores = [];
+        foreach($campos as $nombre => $mostrar){
+            if(!isset($_POST[$nombre]) || $_POST[$nombre] == NULL){
+                $errores[] = $mostrar . ' es un campo requerido.';    
+            }
+        }
+        return $errores;
+    }
 
 ?>
