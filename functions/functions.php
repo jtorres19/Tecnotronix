@@ -1,55 +1,58 @@
 <?php 
     function registro(){
         require_once('data/conexion.php');
-        $errores = [];
+        $errores = duplicado($con);
 
-        $nombre = limpiar($_POST['nombre']);
-        $apellido = limpiar($_POST['apellido']);
+        if (!empty($errores)) {
+            return $errores;
+        }
+
+        $nombre = strtoupper(limpiar($_POST['nombre']));
+        $apellido = strtoupper(limpiar($_POST['apellido']));
         $usuario = limpiar($_POST['usuario']);
         $email = limpiar($_POST['email']);
         $clave = limpiar($_POST['clave']);
         $clave2 = limpiar($_POST['clave2']);
-
-        if($clave !== $clave2){
-            $errores[] = "Claves no coinciden";
-        }else{
-            $sql = "SELECT * FROM usuarios WHERE id_usuario = '$usuario' OR email = '$email'";
-            $result = mysqli_query($con, $sql);
-            $resultCheck = mysqli_num_rows($result);
-            // $dec = $con -> prepare("SELECT * FROM usuarios WHERE id_usuario = ? OR email = ? ");
-            // $dec -> bind_param("ss",$usuario,$email);
-            // $dec -> execute();
-            // $resultado = $dec -> affected_rows;
-            // $dec -> free_result();
-            // $dec -> close();
-            // $con -> close();
-
-            if($resultCheck > 0){
-                $errores[] = "Usuario ya existe, por favor ingrese con otro o recupere su contraseña";
-            }else{
-                $hashedPwd = password_hash($clave, PASSWORD_DEFAULT);
-                $sql = "INSERT INTO usuarios (id_usuario,email,nombre,apellido,contraseña,id_perfil) VALUES ('$usuario', '$email','$nombre', '$apellido', '$hashedPwd', 1)";
-                mysqli_query($con, $sql);
-                // $dec = $con -> prepare("INSERT INTO usuarios (nombre, apellido, id_usuario, email, contraseña, id_perfil) VALUES (? ,?, ?, ?, ?, 1)");
-                // $dec -> bind_param("sssss", $nombre, $apellido, $usuario, $email, $hashedPwd);
-                // $dec -> execute();
-                // $resultado = $dec -> affected_rows;
-                // $dec -> free_result();
-                // $dec -> close();
-                // $con -> close();
-                $errores[] = "Registro realizado con éxito";
-                //header('Location: index.php');
-
-                // if($resultado == 1){
-                //     $_SESSION['usuario'] = $usuario;
-                //     header('Location: index.php');
-                // }else{
-                //     $errores[] = 'Registro no se pudo crear, intente de nuevo mas tarde';
-                // }
-            }
-        }
+        $perfil  = 1;
+       
+        $hashedPwd = password_hash($clave, PASSWORD_DEFAULT);
+        $dec = $con -> prepare("INSERT INTO usuarios (nombre, apellido, id_usuario, email, contraseña, id_perfil) VALUES (? ,?, ?, ?, ?, ?)");
+        $dec -> bind_param("sssssi", $nombre, $apellido, $usuario, $email, $hashedPwd, $perfil);
+        $dec -> execute();
+        $resultado = $dec -> affected_rows;
+        $dec -> free_result();
+        $dec -> close();
+        $con -> close();
+        $errores[] = "Registro realizado con éxito";
+        
         return $errores;
         $errores = [];
+    }
+
+    function duplicado($con){
+        $errores = [];
+
+        $usuario = limpiar($_POST['usuario']);
+        $email = limpiar($_POST['email']);
+
+        $dec = $con -> prepare("SELECT * FROM usuarios WHERE id_usuario = ? OR email = ? ");
+        $dec -> bind_param("ss",$usuario,$email);
+        $dec -> execute();
+        $resultado = $dec -> get_result();
+        $rows = mysqli_num_rows($resultado);
+        $row = $resultado -> fetch_assoc();
+        $dec -> free_result();
+        $dec -> close();
+
+        if ($rows > 0) {
+            if ($_POST['usuario'] == $row['id_usuario']) {
+                $errores[] = 'USUARIO se encuentra ocupado';
+            }if ($_POST['email'] == $row['email']) {
+                $errores[] = 'E-MAIL se encuentra ocupado';
+            }
+        }
+
+        return $errores;
     }
 
     function login(){
@@ -149,8 +152,55 @@
         foreach($campos as $nombre => $mostrar){
             if(!isset($_POST[$nombre]) || $_POST[$nombre] == NULL){
                 $errores[] = $mostrar . ' es un campo requerido.';    
+            }else {
+                $valido = campos();
+                foreach ($valido as $campo => $opcion) {
+                    if ($nombre == $campo) {
+                        if (!preg_match($opcion['patron'], $_POST[$nombre])){
+                            $errores[] = $opcion['error'];
+                        }
+                    }
+                }
             }
         }
+        return $errores;
+    }
+
+    function campo($nombre){
+        echo $_POST[$nombre] ?? '';
+    }
+
+    function campos(){
+        $validacion = [
+            'nombre' => [
+                'patron' => '/^[a-zA-Z\s]{2,20}$/i',
+                'error' => 'NOMBRE solo puede contener letras y espacios, de 2 a 20 caracteres'
+            ],'apellido' => [
+                'patron' => '/^[a-zA-Z\s]{2,20}$/i',
+                'error' => 'APELLIDO solo puede contener letras y espacios, de 2 a 20 caracteres'
+            ],'usuario' => [
+                'patron' => '/^[a-zA-Z][\w]{2,20}$/i',
+                'error' => 'USUARIO puede contener letras, números y guion bajos, de 2 a 20 caracteres'
+            ],'email' => [
+                'patron' => '/^[a-z]+[\w-\.]{2,}@([\w-]{2,}\.)+[\w-]{2,4}$/i',
+                'error' => 'EMAIL debe tener un formato válido, con un maximo de 30 caracteres'
+            ]//,'clave' => [
+            //     'patron' => '/(?=^[\w\!@#\$%\^&\*\?]{6,30}$)(?=(.*[A-Z]){1,})^.*/',
+            //     'error' => 'Ingrese contraseña válida. Debe tener un mínimo de 6 caracteres, con al menos una mayúscula y un máximo de 30 caracteres'
+            // ]
+
+        ];
+
+        return $validacion;
+
+    }
+
+    function comparadorClaves($clave, $clave2){
+        $errores = [];
+        if ($clave !== $clave2) {
+            $errores[] = 'Las contraseñas no coinciden';
+        }
+
         return $errores;
     }
 
