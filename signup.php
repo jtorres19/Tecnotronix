@@ -18,7 +18,7 @@
         }
     }
     
-    $titulo = "GIOT Web | Registro";
+    $titulo = "GIOT WEB | Sing Up";
     require_once('partial/up.php');
     require_once('partial/nav.php');
     require_once('data/conexion.php');
@@ -98,8 +98,10 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <button type="submit" class="btn btn-success btn-lg btn-block" name="btnRegistro" tabindex="8">Registrar</button>
-
+                        <button type="submit" class="btn btn-success btn-lg btn-block" tabindex="8">Registrar</button>
+                        <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
+                        <br>
+                        <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
                     </div>
                     <div class="col-sm-6">
                         <a href="index.php" class="btn btn-danger btn-lg btn-block" tabindex="9">Cancelar</a>

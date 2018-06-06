@@ -8,10 +8,13 @@
 }
 
 body{
-    background: url('../img/background1.jpg') no-repeat; 
-    padding-bottom: 120px;
-    padding-top: 50px;
+    background-attachment: fixed;
+    background-image: url('../img/background1.jpg');
+    background-position: center center;
+    background-repeat: no-repeat; 
     background-size: cover;
+    padding-bottom: 250px;
+    padding-top: 50px;
 }
 
 .titulo-pagina{
@@ -27,24 +30,45 @@ p{
 
 h2{
     color: chocolate;
+    text-align: center;
 }
 
-.errores{
-    padding: 10px 30px;
-}
 
 div.col-sm-9{
     color: black;
     font-weight: bold;
 }   
 
-/*--------------------------------------- estilo barra de navegacion--------------------------------------------- */
+div.avatar{
+    background-color: #C2E7F0;
+    background-image: url('../img/avatar-default.png');
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+}
 
+/*---------------------------------------Estilo de radio buttons-------------------------------------------------*/
 
+label.custom-control-label{
+    font-weight: bold;
+    font-size: 20px;
+    padding-left: 20px;
+    padding-top: 15px;
+    color: #000000;
+}
+
+/*--------------------------------------- estilo output de errores --------------------------------------------- */
+
+.errores{
+    padding: 10px 30px;
+}
 
 /*------------------------------------------- estilo de los inputs-------------------------------------- */
 
-input:invalid {
+input.form-control.input-lg:invalid {
  
     border: 1px solid red;
     
@@ -52,7 +76,7 @@ input:invalid {
      
     /* Estilo por defecto */
      
-input:valid {
+input.form-control.input-lg:valid {
      
     border: 1px solid green;
     
@@ -60,13 +84,13 @@ input:valid {
 }
     /* Estilo por defecto */
      
-input:required:invalid {
+input.form-control.input-lg:required:invalid {
      
     border: 1px solid red;
     
 }
      
-input:required:valid {
+input.form-control.input-lg:required:valid {
      
     border: 1px solid green;
      
@@ -134,6 +158,16 @@ footer .iconos-redes-sociales > a{
 
 /* Pantallas mas grandes */
 @media only screen and (min-width: 768px){
+    body{
+        background-attachment: fixed;
+        background-image: url('../img/background1.jpg'); 
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        padding-bottom: 120px;
+        padding-top: 50px;
+    }
+
     footer{
         text-align: left;
     }

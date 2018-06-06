@@ -55,21 +55,27 @@
         return $errores;
     }
 
-    function login(){
+    function login() {
         require_once('data/conexion.php');
         $errores = [];
 
         $usuario = limpiar($_POST['usuario']);
         $clave = limpiar($_POST['clave']);
 
-        $sql = "SELECT * FROM usuarios WHERE id_usuario = '$usuario' OR email = '$usuario'";
-        $result = mysqli_query($con,$sql);
-        $resultCheck = mysqli_num_rows($result);
+        $dec = $con -> prepare("SELECT * FROM usuarios WHERE id_usuario = ? OR email = ? ");
+        $dec -> bind_param("ss",$usuario,$usuario);
+        $dec -> execute();
+        $resultado = $dec -> get_result();
+        $rows = mysqli_num_rows($resultado);
+        $row = $resultado -> fetch_assoc();
+        $dec -> free_result();
+        $dec -> close();
+        $con -> close();
 
-        if($resultCheck < 1){
+        if($rows < 1){
             $errores[] = "Usuario no existe";
         }else{
-            if($row = mysqli_fetch_assoc($result)){
+            if($row){
                 //de-hashing the password
                 $hashedPwdCheck = password_verify($clave,$row['contraseña']);
                 if($hashedPwdCheck == false){
@@ -80,35 +86,44 @@
                     if($_SESSION['usuario']['id_perfil'] == 1){
                         //$_SESSION['loggedin'] = true;
                         $_SESSION['usuario'] = $row['id_usuario'];
+                        $_SESSION['perfil'] = $row['id_perfil'];
+                        $_SESSION['nombre'] = $row['nombre'];
+                        $_SESSION['apellido'] = $row['apellido'];
                         $_SESSION['start'] = time();
                         $_SESSION['expire'] = $_SESSION['start'] + (10);
-                        header('Location: admin.php');
+                        header('Location: index.php');
                         exit;
                     }elseif($_SESSION['usuario']['id_perfil'] == 2){
                         //$_SESSION['loggedin'] = true;
                         $_SESSION['usuario'] = $row['id_usuario'];
+                        $_SESSION['perfil'] = $row['id_perfil'];
+                        $_SESSION['nombre'] = $row['nombre'];
+                        $_SESSION['apellido'] = $row['apellido'];
                         $_SESSION['start'] = time();
                         $_SESSION['expire'] = $_SESSION['start'] + (10);
-                        header('Location: coach.php');   
+                        header('Location: index.php');   
                         exit;
                     }elseif($_SESSION['usuario']['id_perfil'] == 3){
                         //$_SESSION['loggedin'] = true;
                         $_SESSION['usuario'] = $row['id_usuario'];
+                        $_SESSION['perfil'] = $row['id_perfil'];
+                        $_SESSION['nombre'] = $row['nombre'];
+                        $_SESSION['apellido'] = $row['apellido'];
                         $_SESSION['start'] = time();
                         $_SESSION['expire'] = $_SESSION['start'] + (10);
-                        header('Location: sport.php');
+                        header('Location: index.php');
                         exit;
                     }
-                    //$_SESSION['usuario'] = $row['usuario'];
-                    /*$_SESSION['nombre'] = $row['nombre'];
-                    $_SESSION['apellido'] = $row['apellido'];
-                    $_SESSION['email'] = $row['email'];*/
                 }
             }
         }
 
         return $errores;
         $errores = [];
+
+    }
+
+    function actualizar(){
 
     }
 
@@ -173,18 +188,28 @@
     function campos(){
         $validacion = [
             'nombre' => [
-                'patron' => '/^[a-zA-Z\s]{2,20}$/i',
+                'patron' => '/^[a-zA-ZñÑ\s]{2,20}+$/i',
                 'error' => 'NOMBRE solo puede contener letras y espacios, de 2 a 20 caracteres'
             ],'apellido' => [
-                'patron' => '/^[a-zA-Z\s]{2,20}$/i',
+                'patron' => '/^[a-zA-ZñÑ\s]{2,20}+$/i',
                 'error' => 'APELLIDO solo puede contener letras y espacios, de 2 a 20 caracteres'
             ],'usuario' => [
-                'patron' => '/^[a-zA-Z][\w]{2,20}$/i',
+                'patron' => '/^[a-zA-ZñÑ][\w]{2,20}+$/i',
                 'error' => 'USUARIO puede contener letras, números y guion bajos, de 2 a 20 caracteres'
             ],'email' => [
-                'patron' => '/^[a-z]+[\w-\.]{2,}@([\w-]{2,}\.)+[\w-]{2,4}$/i',
+                'patron' => '/^[a-zñÑ]+[\w-\.]{2,}@([\w-]{2,}\.)+[\w-]{2,4}$/i',
                 'error' => 'EMAIL debe tener un formato válido, con un maximo de 30 caracteres'
-            ]//,'clave' => [
+            ],'edad' => [
+                'patron' => '/^\d{1,3}/i',
+                'error' => 'EDAD solo pueden ser números mayores de 0 y menores de 100'
+            ],'altura' => [
+                'patron' => '/^[1-9]+$/i',
+                'error' => 'ALTURA solo pueden ser números mayores de 0 y menores de 300'
+            ],'peso' => [
+                'patron' => '/^[1-9]+$/i',
+                'error' => 'PESO solo pueden ser números mayores de 0 y menores de 300'
+            ]
+            //'clave' => [
             //     'patron' => '/(?=^[\w\!@#\$%\^&\*\?]{6,30}$)(?=(.*[A-Z]){1,})^.*/',
             //     'error' => 'Ingrese contraseña válida. Debe tener un mínimo de 6 caracteres, con al menos una mayúscula y un máximo de 30 caracteres'
             // ]
@@ -202,6 +227,13 @@
         }
 
         return $errores;
+    }
+
+    function numeros(){
+        $validacion = [
+        ];
+
+        return $validacion;
     }
 
 ?>

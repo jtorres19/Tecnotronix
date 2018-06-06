@@ -4,7 +4,7 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $errores = login();
     }
-    $titulo = "GIOT Web | Login";
+    $titulo = "GIOT WEB | Login";
     require_once('partial/up.php');
     require_once('partial/nav.php');
     require_once('data/conexion.php');
@@ -45,15 +45,14 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <button type="submit" class="btn btn-success btn-lg btn-block" name="btnLogin" tabindex="3">Ingresar</button>
-
+                        <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
+                        <br>
+                        <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
                     </div>
                     <div class="col-sm-6">
                         <a href="index.php" class="btn btn-danger btn-lg btn-block" tabindex="4">Cancelar</a>
                     </div>
                 </div>
-
-                <br>
-
                 <div>
                     <a href="#">¿Olvidó su contraseña?</a>
                 </div>
