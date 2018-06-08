@@ -29,7 +29,7 @@
 
 
                 <?php                       
-                    if(isset($_SESSION['usuario']) && $_SESSION['perfil'] == 3){
+                    if(isset($_SESSION['usuario']) && $_SESSION['perfil'] == 4){
                         echo '
                             <li>
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -37,8 +37,21 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="profile_sport.php">Mi Perfil</a></li>
-                                    <li><a href="#">Mi Cuenta</a></li>    
-                                    <li><a href="#">Mis Preferencias</a></li>    
+                                    <li><a href="#">Mi Plan</a></li>    
+                                    <li class="divider"></li>
+                                    <li><a href="logout.php">Cerrar Sesión</a></li>  
+                                </ul>
+                            </li>
+                        ';
+                    }elseif(isset($_SESSION['usuario']) && $_SESSION['perfil'] == 3){
+                        echo '
+                            <li>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    '.$_SESSION['usuario'].' <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Mi Perfil</a></li>
+                                    <li><a href="#">Alumnos</a></li>    
                                     <li class="divider"></li>
                                     <li><a href="logout.php">Cerrar Sesión</a></li>  
                                 </ul>
@@ -52,8 +65,8 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Mi Perfil</a></li>
+                                    <li><a href="#">Personal Trainners</a></li>    
                                     <li><a href="#">Alumnos</a></li>    
-                                    <li><a href="#">Clases</a></li>    
                                     <li class="divider"></li>
                                     <li><a href="logout.php">Cerrar Sesión</a></li>  
                                 </ul>

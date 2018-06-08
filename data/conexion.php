@@ -5,7 +5,7 @@
     if($con -> connect_error){
         die('Conexion no establecida: ' . $con -> connect_error);
     }else{
-        // echo "Conexion establecida"; 
+        //echo "Conexion establecida"; 
     }
 
 ?>

@@ -98,7 +98,7 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <button type="submit" class="btn btn-success btn-lg btn-block" tabindex="8">Registrar</button>
+                        <button type="submit" class="btn btn-success btn-lg btn-block" name="btnRegistro" tabindex="8">Registrar</button>
                         <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
                         <br>
                         <!-- esto es para que los botones en dispositivos moviles no queden juntos -->

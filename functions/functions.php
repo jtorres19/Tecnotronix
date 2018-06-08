@@ -13,10 +13,10 @@
         $email = limpiar($_POST['email']);
         $clave = limpiar($_POST['clave']);
         $clave2 = limpiar($_POST['clave2']);
-        $perfil  = 1;
+        $perfil  = 4;
        
         $hashedPwd = password_hash($clave, PASSWORD_DEFAULT);
-        $dec = $con -> prepare("INSERT INTO usuarios (nombre, apellido, id_usuario, email, contraseña, id_perfil) VALUES (? ,?, ?, ?, ?, ?)");
+        $dec = $con -> prepare("INSERT INTO usuarios(nombre,apellido,id_usuario,email,contraseña,id_perfil) VALUES (? ,?, ?, ?, ?, ?)");
         $dec -> bind_param("sssssi", $nombre, $apellido, $usuario, $email, $hashedPwd, $perfil);
         $dec -> execute();
         $resultado = $dec -> affected_rows;
@@ -113,9 +113,20 @@
                         $_SESSION['expire'] = $_SESSION['start'] + (10);
                         header('Location: index.php');
                         exit;
+                    }elseif($_SESSION['usuario']['id_perfil'] == 4){
+                        //$_SESSION['loggedin'] = true;
+                        $_SESSION['usuario'] = $row['id_usuario'];
+                        $_SESSION['perfil'] = $row['id_perfil'];
+                        $_SESSION['nombre'] = $row['nombre'];
+                        $_SESSION['apellido'] = $row['apellido'];
+                        $_SESSION['start'] = time();
+                        $_SESSION['expire'] = $_SESSION['start'] + (10);
+                        header('Location: index.php');
+                        exit;
                     }
                 }
             }
+
         }
 
         return $errores;

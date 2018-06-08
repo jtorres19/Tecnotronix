@@ -1,0 +1,57 @@
+CREATE TABLE gym(
+	id_gym varchar(5) NOT NULL,
+	nombre varchar(30) NOT NULL,
+	PRIMARY KEY(id_gym)
+);
+
+CREATE TABLE perfil(
+	id_perfil integer(1) NOT NULL AUTO_INCREMENT,
+	nombre varchar(30) NOT NULL,
+	PRIMARY KEY(id_perfil)
+);
+
+CREATE TABLE usuarios(
+	id_usuario varchar(20) NOT NULL,
+	email varchar(40) NOT NULL,
+	nombre varchar(30) NOT NULL,
+	apellido varchar(30) NOT NULL,
+	foto longblob,
+	edad integer(3),
+	altura integer(3),
+	peso integer(3),
+	sexo char(1),
+	contraseña varchar(200) NOT NULL,
+	id_perfil integer(1) NOT NULL,
+	id_gym varchar(5) NOT NULL,
+	PRIMARY KEY(id_usuario,email),
+	FOREIGN KEY(id_perfil) REFERENCES perfil(id_perfil),
+	FOREIGN KEY(id_gym) REFERENCES gym(id_gym)
+);
+
+CREATE TABLE maquinas(
+	id_maquina varchar(5) NOT NULL,
+	nombre varchar(20) NOT NULL,
+	qr longblob NOT NULL,
+	foto longblob NOT NULL,
+	descripcion varchar(200),
+	id_gym varchar(5),
+	PRIMARY KEY(id_maquina),
+	FOREIGN KEY(id_gym) REFERENCES gym(id_gym)
+);
+
+CREATE TABLE plan_entto(
+	id_plan varchar(5) NOT NULL,
+	id_gym varchar(5) NOT NULL,	
+	id_usuario varchar(20) NOT NULL,
+	nombre varchar(20) NOT NULL,
+	descripcion varchar(200),
+	series integer(1),
+	repeticiones integer(2),
+	peso integer(3),
+	tiempo datetime,
+	id_maquina varchar(5) NOT NULL,
+	PRIMARY KEY(id_plan,id_gym,id_usuario),
+	FOREIGN KEY(id_gym) REFERENCES gym(id_gym),
+	FOREIGN KEY(id_usuario) REFERENCES usuarios(id_usuario),
+	FOREIGN KEY(id_maquina) REFERENCES maquinas(id_maquina)
+);
