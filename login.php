@@ -1,8 +1,19 @@
 <?php
     session_start();
     require_once('functions/functions.php');
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        $errores = login();
+    if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ficha']) && validar_ficha($_POST['ficha'])){
+        if (!empty($_POST['miel'])) {
+            return header('Location: index.php');
+        }
+            $campos = [
+                'clave' => 'Contraseña'
+            ];
+
+            $errores = validar($campos);
+
+            if(empty($errores)){
+                $errores = login();
+            }
     }
     $titulo = "GIOT WEB | Login";
     require_once('partial/up.php');
@@ -27,6 +38,10 @@
             
             <!-- Formulario de login -->
             <form method="POST">
+                <input type="hidden" name="ficha" value="<?php echo ficha_csrf(); ?>">
+                <!-- input para proteccion de spambot -->
+                <input type="hidden" name="miel" value="">
+                <!-- input para proteccion de spambot -->
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group input-group"><span class="input-group-addon"><i class="fas fa-user"></i></span>
@@ -44,7 +59,7 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <button type="submit" class="btn btn-success btn-lg btn-block" name="btnLogin" tabindex="3">Ingresar</button>
+                        <button type="submit" class="btn btn-success btn-lg btn-block" tabindex="3">Ingresar</button>
                         <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
                         <br>
                         <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
@@ -66,6 +81,6 @@
 <!-- Contenedor principal -->
 
 <?php
-    require_once('partial/footer.php');
+    // require_once('partial/footer.php');
     require_once('partial/down.php');
 ?>

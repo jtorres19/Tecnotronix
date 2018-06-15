@@ -13,7 +13,7 @@
 
 
         if(empty($errores)){
-            $errores = actualizar();
+            $errores = actualizar($_SESSION['usuario']);
         }
     }
 
@@ -43,6 +43,9 @@
 <!----------------------- Datos de perfil-deportista, formulario de actalizacion--------------->
  			<form method="POST">
  				<input type="hidden" name="ficha" value="<?php echo ficha_csrf(); ?>">
+ 				<!-- input para proteccion de spambot -->
+                <input type="hidden" name="miel" value="">
+                <!-- input para proteccion de spambot -->
 				<div class="row">
 					<div class="col-sm-offset-5">
 			 			<div class="avatar"></div>
@@ -119,6 +122,6 @@
 <!-- Contenedor principal -->
 
 <?php 
-	require_once('partial/footer.php');
+	// require_once('partial/footer.php');
 	require_once('partial/down.php');
 ?>

@@ -16,13 +16,17 @@
         $perfil  = 4;
        
         $hashedPwd = password_hash($clave, PASSWORD_DEFAULT);
-        $dec = $con -> prepare("INSERT INTO usuarios(nombre,apellido,id_usuario,email,contraseña,id_perfil) VALUES (? ,?, ?, ?, ?, ?)");
-        $dec -> bind_param("sssssi", $nombre, $apellido, $usuario, $email, $hashedPwd, $perfil);
-        $dec -> execute();
-        $resultado = $dec -> affected_rows;
-        $dec -> free_result();
-        $dec -> close();
-        $con -> close();
+        
+        // $dec = $con -> prepare("INSERT INTO usuarios(nombre,apellido,id_usuario,email,contraseña,id_perfil) VALUES (? ,?, ?, ?, ?, ?)");
+        // $dec -> bind_param("sssssi", $nombre, $apellido, $usuario, $email, $hashedPwd, $perfil);
+        // $dec -> execute();
+        // $resultado = $dec -> affected_rows;
+        // $dec -> free_result();
+        // $dec -> close();
+        // $con -> close();
+        
+        $sql = "INSERT INTO usuarios(nombre,apellido,id_usuario,email,contraseña,id_perfil) VALUES ('$nombre', '$apellido', '$usuario', '$email', '$hashedPwd', 4)";
+        mysqli_query($con,$sql);
         $errores[] = "Registro realizado con éxito";
         
         return $errores;
@@ -35,14 +39,20 @@
         $usuario = limpiar($_POST['usuario']);
         $email = limpiar($_POST['email']);
 
-        $dec = $con -> prepare("SELECT * FROM usuarios WHERE id_usuario = ? OR email = ? ");
-        $dec -> bind_param("ss",$usuario,$email);
-        $dec -> execute();
-        $resultado = $dec -> get_result();
-        $rows = mysqli_num_rows($resultado);
-        $row = $resultado -> fetch_assoc();
-        $dec -> free_result();
-        $dec -> close();
+        // $dec -> prepare("SELECT * FROM usuarios WHERE id_usuario = ? OR email = ? ");
+        
+        // $dec -> bind_param("ss",$usuario,$email);
+        // $dec -> execute();
+        // $resultado = $dec->get_result();
+        // $rows = mysqli_num_rows($resultado);
+        // $row = $resultado -> fetch_assoc();
+        // $dec -> free_result();
+        // $dec -> close();
+        
+        $sql = "SELECT * FROM usuarios WHERE id_usuario = '$usuario' OR email = '$email'";
+        $result = mysqli_query($con,$sql);
+        $rows = mysqli_num_rows($result);
+        $row = $result -> fetch_assoc();
 
         if ($rows > 0) {
             if ($_POST['usuario'] == $row['id_usuario']) {
@@ -62,25 +72,46 @@
         $usuario = limpiar($_POST['usuario']);
         $clave = limpiar($_POST['clave']);
 
-        $dec = $con -> prepare("SELECT * FROM usuarios WHERE id_usuario = ? OR email = ? ");
-        $dec -> bind_param("ss",$usuario,$usuario);
-        $dec -> execute();
-        $resultado = $dec -> get_result();
-        $rows = mysqli_num_rows($resultado);
-        $row = $resultado -> fetch_assoc();
-        $dec -> free_result();
-        $dec -> close();
-        $con -> close();
+        // $dec = $con->prepare("SELECT * FROM usuarios WHERE id_usuario = ? OR email = ? ");
+
+        // $dec->bind_param("ss",$usuario,$usuario);
+        // $dec->execute();
+        // $resultado = $dec->get_result();
+        // $rows = mysqli_num_rows($resultado);
+        // $row = $resultado->fetch_assoc();
+        // $dec->free_result();
+        // $dec->close();
+         
+        $sql = "SELECT * FROM usuarios WHERE id_usuario = '$usuario' OR email = '$usuario'";
+        $result = mysqli_query($con,$sql);
+        $rows = mysqli_num_rows($result);
 
         if($rows < 1){
             $errores[] = "Usuario no existe";
         }else{
-            if($row){
+            // if($row){
+            if($row = mysqli_fetch_assoc($result)){
                 //de-hashing the password
                 $hashedPwdCheck = password_verify($clave,$row['contraseña']);
                 if($hashedPwdCheck == false){
+                    $errores = fuerzaBruta($con, $row['intento'], $row['id_usuario'], $row['tiempo']);
+                    if (!empty($errores)) {
+                        return $errores;
+                    }
                     $errores[] = "Contraseña inválida, intente de nuevo";
-                }elseif($hashedPwdCheck == true){
+                }elseif($hashedPwdCheck == true && $row['intento'] < 5){
+                    $intento = 0;
+                    $tiempo = NULL;
+                    $id = $row['id_usuario'];
+                    // $dec = $con -> prepare("UPDATE usuarios SET intento = ?, tiempo = ? WHERE id_usuario = ? ");
+                    // $dec -> bind_param("iss",$intento,$tiempo,$id);
+                    // $dec -> execute();
+                    // $dec -> close();
+                    // $con -> close();
+                    
+                    $sql = "UPDATE usuarios SET intento = '$intento', tiempo = '$tiempo' WHERE id_usuario = '$id' ";
+			        mysqli_query($con,$sql);
+
                     //Log in the user here
                     $_SESSION['usuario'] = $row;
                     if($_SESSION['usuario']['id_perfil'] == 1){
@@ -89,6 +120,11 @@
                         $_SESSION['perfil'] = $row['id_perfil'];
                         $_SESSION['nombre'] = $row['nombre'];
                         $_SESSION['apellido'] = $row['apellido'];
+                        $_SESSION['foto'] = $row['foto'];
+                        $_SESSION['edad'] = $row['edad'];
+                        $_SESSION['altura'] = $row['altura'];
+                        $_SESSION['peso'] = $row['peso'];
+                        $_SESSION['sexo'] = $row['sexo'];
                         $_SESSION['start'] = time();
                         $_SESSION['expire'] = $_SESSION['start'] + (10);
                         header('Location: index.php');
@@ -99,6 +135,11 @@
                         $_SESSION['perfil'] = $row['id_perfil'];
                         $_SESSION['nombre'] = $row['nombre'];
                         $_SESSION['apellido'] = $row['apellido'];
+                        $_SESSION['foto'] = $row['foto'];
+                        $_SESSION['edad'] = $row['edad'];
+                        $_SESSION['altura'] = $row['altura'];
+                        $_SESSION['peso'] = $row['peso'];
+                        $_SESSION['sexo'] = $row['sexo'];
                         $_SESSION['start'] = time();
                         $_SESSION['expire'] = $_SESSION['start'] + (10);
                         header('Location: index.php');   
@@ -109,6 +150,11 @@
                         $_SESSION['perfil'] = $row['id_perfil'];
                         $_SESSION['nombre'] = $row['nombre'];
                         $_SESSION['apellido'] = $row['apellido'];
+                        $_SESSION['foto'] = $row['foto'];
+                        $_SESSION['edad'] = $row['edad'];
+                        $_SESSION['altura'] = $row['altura'];
+                        $_SESSION['peso'] = $row['peso'];
+                        $_SESSION['sexo'] = $row['sexo'];
                         $_SESSION['start'] = time();
                         $_SESSION['expire'] = $_SESSION['start'] + (10);
                         header('Location: index.php');
@@ -119,11 +165,18 @@
                         $_SESSION['perfil'] = $row['id_perfil'];
                         $_SESSION['nombre'] = $row['nombre'];
                         $_SESSION['apellido'] = $row['apellido'];
+                        $_SESSION['foto'] = $row['foto'];
+                        $_SESSION['edad'] = $row['edad'];
+                        $_SESSION['altura'] = $row['altura'];
+                        $_SESSION['peso'] = $row['peso'];
+                        $_SESSION['sexo'] = $row['sexo'];
                         $_SESSION['start'] = time();
                         $_SESSION['expire'] = $_SESSION['start'] + (10);
                         header('Location: index.php');
                         exit;
                     }
+                }elseif($hashedPwdCheck == true && $row['intento'] >= 5){
+                    $errores[] = 'Esta cuenta se mantiene bloqueada';
                 }
             }
 
@@ -134,8 +187,70 @@
 
     }
 
-    function actualizar(){
+    function actualizar($usuario){
+        require_once('data/conexion.php');
+        $errores = [];
 
+        $nombre = limpiar($_POST['nombre']);
+        $apellido = limpiar($_POST['apellido']);
+        $edad = limpiar($_POST['edad']);
+        $altura = limpiar($_POST['altura']);
+        $peso = limpiar($_POST['peso']);
+
+        $sql = "UPDATE usuarios SET nombre = '$nombre', apellido = '$apellido', edad = '$edad', altura = '$altura', peso = '$peso' WHERE id_usuario = '$usuario'";
+        mysqli_query($con,$sql);
+
+        return $errores;
+        $errores = [];
+    }
+
+    function fuerzaBruta($con, $intento, $id, $tiempo){
+        $errores = [];
+        $intento = $intento + 1;
+
+        // $dec = $con -> prepare("UPDATE usuarios SET intento = ? WHERE id_usuario = ? ");
+        // $dec -> bind_param("is",$intento,$id);
+        // $dec -> execute();
+        // $dec -> close();
+         
+		$sql = "UPDATE usuarios SET intento = '$intento' WHERE id_usuario = '$id'";
+        mysqli_query($con,$sql);
+
+        if ($intento == 5) {
+            $bloqueo = date('Y-m-d H:i:s');
+            // $dec = $con -> prepare("UPDATE usuarios SET tiempo = ? WHERE id_usuario = ? ");
+            // $dec -> bind_param("ss",$bloqueo,$id);
+            // $dec -> execute();
+            // $dec -> close();
+            // $con -> close();
+            
+            $sql = "UPDATE usuarios SET tiempo = '$bloqueo' WHERE id_usuario = '$id'";
+	        mysqli_query($con,$sql);
+
+            $errores[] = 'Esta cuenta ha sido bloqueada por los próximos 5 minutos';
+
+        }elseif ($intento > 5) {
+            $espera = strtotime(date('Y-m-d H:i:s')) - strtotime($tiempo);
+            $minutos = ceil((300 - $espera) / 60); 
+            $errores[] = 'Esta cuenta se desbloqueara en ' .$minutos. ' minutos';
+            
+            if($espera < 300){
+                $intento = 1;
+                $tiempo = NULL;
+                // $dec = $con -> prepare("UPDATE usuarios SET intento = ?, tiempo = ? WHERE id_usuario = ? ");
+                // $dec -> bind_param("iss",$intento,$tiempo,$id);
+                // $dec -> execute();
+                // $dec -> close();
+                // $con -> close();
+                
+                $sql = "UPDATE usuarios SET intento = '$intento', tiempo = '$tiempo' WHERE id_usuario = '$id'";
+		        mysqli_query($con,$sql);
+            }
+
+            
+        }
+
+        return $errores;
     }
 
     function limpiar($datos){
@@ -193,7 +308,11 @@
     }
 
     function campo($nombre){
-        echo $_POST[$nombre] ?? '';
+        if(isset($_SESSION['usuario'])){
+        	echo $_SESSION[$nombre] ?? $_POST[$nombre] ?? '';
+        }else{
+	        echo $_POST[$nombre] ?? '';
+        }
     }
 
     function campos(){
@@ -211,13 +330,13 @@
                 'patron' => '/^[a-zñÑ]+[\w-\.]{2,}@([\w-]{2,}\.)+[\w-]{2,4}$/i',
                 'error' => 'EMAIL debe tener un formato válido, con un maximo de 30 caracteres'
             ],'edad' => [
-                'patron' => '/^\d{1,3}/i',
+                'patron' => '/^\d{1,2}$/i',
                 'error' => 'EDAD solo pueden ser números mayores de 0 y menores de 100'
             ],'altura' => [
-                'patron' => '/^[1-9]+$/i',
+                'patron' => '/^\d{1,3}$/i',
                 'error' => 'ALTURA solo pueden ser números mayores de 0 y menores de 300'
             ],'peso' => [
-                'patron' => '/^[1-9]+$/i',
+                'patron' => '/^\d{1,3}$/i',
                 'error' => 'PESO solo pueden ser números mayores de 0 y menores de 300'
             ]
             //'clave' => [

@@ -22,7 +22,7 @@ CREATE TABLE usuarios(
 	sexo char(1),
 	contraseña varchar(200) NOT NULL,
 	id_perfil integer(1) NOT NULL,
-	id_gym varchar(5) NOT NULL,
+	id_gym varchar(5),
 	PRIMARY KEY(id_usuario,email),
 	FOREIGN KEY(id_perfil) REFERENCES perfil(id_perfil),
 	FOREIGN KEY(id_gym) REFERENCES gym(id_gym)

@@ -13,7 +13,7 @@ body{
     background-position: center center;
     background-repeat: no-repeat; 
     background-size: cover;
-    padding-bottom: 250px;
+    padding-bottom: 50px;
     padding-top: 50px;
 }
 
@@ -48,6 +48,10 @@ div.avatar{
     border-radius: 50%;
     height: 150px;
     width: 150px;
+}
+
+.error{
+    color: #FF0000;
 }
 
 /*---------------------------------------Estilo de radio buttons-------------------------------------------------*/

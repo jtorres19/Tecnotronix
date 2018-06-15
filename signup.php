@@ -2,6 +2,9 @@
     session_start();
     require_once('functions/functions.php');
     if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['ficha']) && validar_ficha($_POST['ficha'])){
+        if (!empty($_POST['miel'])) {
+            return header('Location: index.php');
+        }
         $campos = [
             'nombre' => 'Nombre',
             'apellido' => 'Apellido',
@@ -39,8 +42,11 @@
             <!--Llamando a funcion para mostrar errores -->
 
             <!-- Formulario de registro -->
-            <form method="POST">
+            <form method="POST" id="formulario-registro">
                 <input type="hidden" name="ficha" value="<?php echo ficha_csrf(); ?>">
+                <!-- input para proteccion de spambot -->
+                <input type="hidden" name="miel" value="">
+                <!-- input para proteccion de spambot -->
                 <h2>Registrate <small>para acceder a los beneficios de GIOT</small></h2>
                 <hr>
                 <div class="row">
@@ -98,7 +104,7 @@
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <button type="submit" class="btn btn-success btn-lg btn-block" name="btnRegistro" tabindex="8">Registrar</button>
+                        <button type="submit" class="btn btn-success btn-lg btn-block" tabindex="8">Registrar</button>
                         <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
                         <br>
                         <!-- esto es para que los botones en dispositivos moviles no queden juntos -->
@@ -116,6 +122,6 @@
 <!-- Contenedor principal -->
 
 <?php
-    require_once('partial/footer.php');
+    // require_once('partial/footer.php');
     require_once('partial/down.php');
 ?>
